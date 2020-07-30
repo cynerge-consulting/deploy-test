@@ -88,13 +88,6 @@ pipeline {
                 env.JOB_NAME = "${JOB_NAME}"
 
             sh 'printenv'
-
-            // emailext body: '''${SCRIPT, template="groovy-html.template"}''',
-            emailext body: '''${SCRIPT, template="email_report.template"}''',
-            mimeType: 'text/html',
-            subject: '$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!',
-            to: "${EMAIL_RECIPIANTS}"
-
             }
         }
 
