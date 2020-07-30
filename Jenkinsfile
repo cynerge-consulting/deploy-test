@@ -79,7 +79,7 @@ pipeline {
                 sh "npm publish --registry=${env.NEXUS_HOST}/"
             }
         }
-    }
+    }  
     post {
         success {
             script {
@@ -90,7 +90,7 @@ pipeline {
             sh 'printenv'
             }
         }
-    
+    }
     cleanup {
         script {
             shipyardBuildBadge.setStatus('running')
@@ -106,6 +106,4 @@ pipeline {
             cleanWs()
         }
     }
-    }
-}
 }
