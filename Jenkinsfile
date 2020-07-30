@@ -82,6 +82,35 @@ pipeline {
                 sh "npm publish --registry=${env.NPM_REGISTRY}/"
             }
         }
+      
+      stage('Lint Testing') {
+        agent {
+          docker {
+            image 'luther007/cynerge_images'
+            args '-u root'
+            alwaysPull true
+          }
+        }
+        steps{
+          sh 'npm run lint'
+        }
+            
+      }
+      
+      
+      stage('Unit Testing') {
+        agent {
+          docker {
+            image 'luther007/cynerge_images'
+            args '-u root'
+            alwaysPull true
+          }
+        }
+        steps{
+          sh 'npm run test'
+        }
+            
+      }
     }
 
     post {
