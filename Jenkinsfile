@@ -24,13 +24,7 @@ pipeline {
     stages {
 
         stage('Dependencies') {
-            agent {
-                docker {
-                    image 'luther007/cynerge_images'
-                    args '-u root'
-                    alwaysPull true
-                }
-            }
+            agent any
             steps {
                 echo 'Installing...'
                 sh 'echo $GIT_BRANCH'
@@ -38,25 +32,13 @@ pipeline {
             }
         }
         stage('Lint Testing') {
-            agent {
-            docker {
-                image 'luther007/cynerge_images'
-                args '-u root'
-                alwaysPull true
-            }
-            }
+            agent any
             steps{
                 sh 'npm run lint'
             }
         }
         stage('Unit Testing') {
-            agent {
-            docker {
-                image 'luther007/cynerge_images'
-                args '-u root'
-                alwaysPull true
-            }
-            }
+            agent any
             steps{
                 sh 'npm run test'
             }     
@@ -82,13 +64,7 @@ pipeline {
         }
 
         stage('Store NPM Artifact') {
-            agent {
-                docker {
-                    image 'luther007/cynerge_images'
-                    args '-u root'
-                    alwaysPull true
-                }
-            }
+            agent any
             environment { 
                 NPM_USER = credentials('nexus-user')
                 NPM_PASS = credentials('nexus-pass')
