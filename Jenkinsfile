@@ -7,7 +7,6 @@ pipeline {
         EMAIL_RECIPIANTS = 'ljolliff@cynerge.com'
         NEXUS_USER = credentials('nexus-user')
         NEXUS_PASS = credentials('nexus-pass')
-        NEXUS_REPO = credentials('nexus-raw-repo')
         APP_SOURCE = './src/**/**/**/**.html'
         STATUS_SUCCESS = ''
         JENKINS_URL = "${JENKINS_URL}"
@@ -77,7 +76,7 @@ pipeline {
                 sh 'printenv'
                 sh 'npm-cli-login'
                 sh 'cat .npmrc'
-                sh "npm publish --registry=${env.NPM_REGISTRY}/"
+                sh "npm publish --registry=${env.NEXUS_HOST}/"
             }
         }
       
