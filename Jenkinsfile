@@ -1,12 +1,8 @@
 def shipyardBuildBadge = addEmbeddableBadgeConfiguration(id: "shipyard-build", subject: "Shipyard Build")
 
 pipeline {
-    agent {
-        node {
-            label 'ubuntu-slave'
-        }
-    }
-
+    agent any
+  
     environment {
         EMAIL_RECIPIANTS = 'ljolliff@cynerge.com'
         NEXUS_USER = credentials('nexus-user')
@@ -25,6 +21,7 @@ pipeline {
 
         stage('Dependencies') {
             agent any
+          
             steps {
                 echo 'Installing...'
                 sh 'echo $GIT_BRANCH'
@@ -33,12 +30,14 @@ pipeline {
         }
         stage('Lint Testing') {
             agent any
+          
             steps{
                 sh 'npm run lint'
             }
         }
         stage('Unit Testing') {
             agent any
+          
             steps{
                 sh 'npm run test'
             }     
