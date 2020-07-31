@@ -2,7 +2,7 @@ def shipyardBuildBadge = addEmbeddableBadgeConfiguration(id: "shipyard-build", s
 
 pipeline {
     agent any
-  
+
     environment {
         EMAIL_RECIPIANTS = 'ljolliff@cynerge.com'
         NEXUS_USER = credentials('nexus-user')
@@ -17,10 +17,7 @@ pipeline {
     }
 
     stages {
-
         stage('Dependencies') {
-            agent any
-          
             steps {
                 echo 'Installing...'
                 sh 'echo $GIT_BRANCH'
@@ -28,18 +25,14 @@ pipeline {
             }
         }
         stage('Lint Testing') {
-            agent any
-          
-            steps{
+            steps {
                 sh 'npm run lint'
             }
         }
         stage('Unit Testing') {
-            agent any
-          
-            steps{
+            steps {
                 sh 'npm run test'
-            }     
+            }
         }
         stage('Sonarqube Analysis') {
             agent {
@@ -62,7 +55,6 @@ pipeline {
         }
 
         stage('Store NPM Artifact') {
-            agent any
             environment { 
                 NPM_USER = credentials('nexus-user')
                 NPM_PASS = credentials('nexus-pass')
@@ -103,7 +95,7 @@ pipeline {
                     error 'Build failed'
                 }
             cleanWs()
-            }   
+            }
         }
     }
 }
