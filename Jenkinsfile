@@ -1,7 +1,11 @@
 def shipyardBuildBadge = addEmbeddableBadgeConfiguration(id: "shipyard-build", subject: "Shipyard Build")
 
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'cynergeconsulting/browser-node-12'
+        }
+    }
 
     environment {
         EMAIL_RECIPIANTS = 'ljolliff@cynerge.com'
@@ -11,7 +15,7 @@ pipeline {
         STATUS_SUCCESS = ''
         JENKINS_URL = "${JENKINS_URL}"
         JOB_NAME = "${JOB_NAME}"
-        SONAR_TOKEN = credentials('govcloud-sonarqube')
+        SONAR_TOKEN = credentials('shipyard-sonarqube')
         SONAR_PROJECT = 'shipyard-project'
         SONAR_SOURCE = 'src'
     }
@@ -68,7 +72,7 @@ pipeline {
                 sh 'printenv'
                 sh 'npm-cli-login'
                 sh 'cat .npmrc'
-                sh "npm publish --registry=${env.NEXUS_HOST}/"
+                sh "npm publish --registry=$NPM_REGISTRY/"
             }
         }
     }  
@@ -94,7 +98,6 @@ pipeline {
                     shipyardBuildBadge.setColor('red')
                     error 'Build failed'
                 }
-            cleanWs()
             }
         }
     }
