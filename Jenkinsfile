@@ -88,6 +88,7 @@ pipeline {
         }
     
         cleanup {
+            cleanWs()
             script {
                 shipyardBuildBadge.setStatus('running')
                 try {
